@@ -7,6 +7,7 @@ import com.example.ideation.assemble.near_repo.Product;
 import com.example.ideation.assemble.near_repo.ProductAuthor;
 import com.example.ideation.assemble.type.AgeGrade;
 import com.example.ideation.assemble.type.AuthorType;
+import com.example.ideation.assemble.type.Pair;
 import com.example.ideation.assemble.type.ProductStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +23,8 @@ class DefaultServiceTest {
   Map<Product, List<ProductAuthor>> repo;
   AuthorIdGenerator idGenerator;
 
+  Assembler productResponseAssembler;
+
   ObjectMapper mapper;
 
   @BeforeEach
@@ -30,6 +33,8 @@ class DefaultServiceTest {
     mapper.registerModule(new ApplicationConfig().simpleModule());
     idGenerator = new IdGenerator();
     repo = new HashMap<>();
+
+    productResponseAssembler = new GetProductResAssembler();
 
 
     var a = List.of(new ProductAuthor(idGenerator.authorId(), "King sejong", "sejong the great",
@@ -43,7 +48,7 @@ class DefaultServiceTest {
   public void getProduct() {
     var m = new HashMap<Product, List<ProductAuthor>>();
 
-    var service = new DefaultService(repo);
+    var service = new DefaultService(repo, productResponseAssembler);
     var dto = service.getProduct("1").getBody();
 
     try {

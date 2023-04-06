@@ -1,6 +1,5 @@
 package com.example.ideation.assemble;
 
-import com.example.ideation.assemble.func.RespProdMapper;
 import com.example.ideation.assemble.type.AuthorId;
 import com.example.ideation.assemble.type.AgeGrade;
 import com.example.ideation.assemble.type.AuthorType;
@@ -14,12 +13,6 @@ public record ProductResponse(
     AgeGrade gradeOfAge,
     List<Authors> authors
 ) {
-
-  public static ProductResponse transform(RespProdMapper fn) {
-    return fn.get();
-    // readme 참고
-  }
-
   public record Authors(
       AuthorType type,
       List<AuthorDetail> details
